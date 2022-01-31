@@ -50,6 +50,7 @@ implementations listed below.
 - https://github.com/Tom94/tev - another native QOI viewer (allows pixel peeping and comparison with other image formats)
 - https://apps.apple.com/br/app/qoiconverterx/id1602159820 QOI <=> PNG converter available on the Mac App Store
 - https://github.com/kaetemi/qoi-max - QOI Bitmap I/O Plugin for 3ds Max
+- https://raylibtech.itch.io/rtexviewer - texture viewer, supports QOI
 
 
 ## Implementations & Bindings of QOI
@@ -75,6 +76,7 @@ implementations listed below.
 - https://github.com/shadowMitia/libqoi/ (C++)
 - https://github.com/MKCG/php-qoi (PHP)
 - https://github.com/LightHouseSoftware/qoiformats (D)
+- https://github.com/mhoward540/qoi-nim (Nim)
 
 
 ## QOI Support in Other Software
