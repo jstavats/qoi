@@ -1,0 +1,259 @@
+## Benchmarking ../qoi_benchmark_suite/photo_wikipedia//*.png -- 1 runs
+
+3466800 pixels matched for ../qoi_benchmark_suite/photo_wikipedia//049.png
+## ../qoi_benchmark_suite/photo_wikipedia//049.png size: 1070x1080
+        decode ms   encode ms   decode mpps   encode mpps   size kb    rate
+libpng:      18.6       279.4         62.12          4.14      1877   55.5%
+stbi:        24.2       200.6         47.81          5.76      2996   88.5%
+qoi:          6.7        13.9        173.11         83.34      2884   85.2%
+
+2772192 pixels matched for ../qoi_benchmark_suite/photo_wikipedia//010.png
+## ../qoi_benchmark_suite/photo_wikipedia//010.png size: 1724x536
+        decode ms   encode ms   decode mpps   encode mpps   size kb    rate
+libpng:      20.1       209.2         45.88          4.42      1787   66.0%
+stbi:        23.8       160.4         38.87          5.76      2386   88.2%
+qoi:          6.0         8.8        155.10        105.53      2098   77.5%
+
+3855864 pixels matched for ../qoi_benchmark_suite/photo_wikipedia//025.png
+## ../qoi_benchmark_suite/photo_wikipedia//025.png size: 1388x926
+        decode ms   encode ms   decode mpps   encode mpps   size kb    rate
+libpng:      30.9       325.9         41.58          3.94      2206   58.6%
+stbi:        39.5       233.3         32.52          5.51      3054   81.1%
+qoi:          7.6        12.2        168.59        105.47      2473   65.7%
+
+3265248 pixels matched for ../qoi_benchmark_suite/photo_wikipedia//047.png
+## ../qoi_benchmark_suite/photo_wikipedia//047.png size: 1204x904
+        decode ms   encode ms   decode mpps   encode mpps   size kb    rate
+libpng:      23.2       360.3         46.88          3.02      1722   54.0%
+stbi:        27.3       200.9         39.87          5.42      2422   76.0%
+qoi:          6.2        10.6        174.32        102.22      1893   59.4%
+
+3359232 pixels matched for ../qoi_benchmark_suite/photo_wikipedia//023.png
+## ../qoi_benchmark_suite/photo_wikipedia//023.png size: 1296x864
+        decode ms   encode ms   decode mpps   encode mpps   size kb    rate
+libpng:      21.5       437.2         52.12          2.56      1517   46.3%
+stbi:        24.5       194.1         45.65          5.77      2297   70.0%
+qoi:          7.4        10.6        150.95        106.12      1880   57.3%
+
+2831760 pixels matched for ../qoi_benchmark_suite/photo_wikipedia//022.png
+## ../qoi_benchmark_suite/photo_wikipedia//022.png size: 1080x874
+        decode ms   encode ms   decode mpps   encode mpps   size kb    rate
+libpng:      18.6       165.5         50.79          5.70      1965   71.1%
+stbi:        21.4       169.2         44.20          5.58      2621   94.8%
+qoi:          5.6         9.2        167.92        102.76      2450   88.6%
+
+2899224 pixels matched for ../qoi_benchmark_suite/photo_wikipedia//012.png
+## ../qoi_benchmark_suite/photo_wikipedia//012.png size: 1202x804
+        decode ms   encode ms   decode mpps   encode mpps   size kb    rate
+libpng:      25.1       169.1         38.51          5.71      2128   75.2%
+stbi:        30.6       190.9         31.56          5.06      2738   96.7%
+qoi:          5.9         9.4        165.14        103.16      2541   89.8%
+
+2970000 pixels matched for ../qoi_benchmark_suite/photo_wikipedia//015.png
+## ../qoi_benchmark_suite/photo_wikipedia//015.png size: 900x1100
+        decode ms   encode ms   decode mpps   encode mpps   size kb    rate
+libpng:      20.6       200.3         47.95          4.94      1927   66.4%
+stbi:        19.8       168.1         50.11          5.89      2402   82.8%
+qoi:          5.9         8.1        168.46        122.59      1952   67.3%
+
+3359232 pixels matched for ../qoi_benchmark_suite/photo_wikipedia//039.png
+## ../qoi_benchmark_suite/photo_wikipedia//039.png size: 1296x864
+        decode ms   encode ms   decode mpps   encode mpps   size kb    rate
+libpng:      26.8       287.8         41.77          3.89      1928   58.8%
+stbi:        31.7       207.2         35.29          5.40      2652   80.8%
+qoi:          6.7        10.1        167.18        110.34      2195   66.9%
+
+3352320 pixels matched for ../qoi_benchmark_suite/photo_wikipedia//027.png
+## ../qoi_benchmark_suite/photo_wikipedia//027.png size: 960x1164
+        decode ms   encode ms   decode mpps   encode mpps   size kb    rate
+libpng:      19.1       244.6         58.46          4.57      1999   61.1%
+stbi:        20.4       192.5         54.79          5.80      2862   87.4%
+qoi:          5.2         9.9        216.29        113.12      2221   67.9%
+
+3510000 pixels matched for ../qoi_benchmark_suite/photo_wikipedia//042.png
+## ../qoi_benchmark_suite/photo_wikipedia//042.png size: 1300x900
+        decode ms   encode ms   decode mpps   encode mpps   size kb    rate
+libpng:      19.8       367.6         59.12          3.18      1804   52.6%
+stbi:        23.3       209.2         50.16          5.59      2618   76.4%
+qoi:          6.8        11.2        172.08        104.73      2165   63.2%
+
+2971776 pixels matched for ../qoi_benchmark_suite/photo_wikipedia//014.png
+## ../qoi_benchmark_suite/photo_wikipedia//014.png size: 872x1136
+        decode ms   encode ms   decode mpps   encode mpps   size kb    rate
+libpng:      25.7       228.2         38.49          4.34      1725   59.5%
+stbi:        30.0       178.6         32.97          5.55      2572   88.7%
+qoi:          5.2         9.4        191.53        104.91      2172   74.8%
+
+3006144 pixels matched for ../qoi_benchmark_suite/photo_wikipedia//005.png
+## ../qoi_benchmark_suite/photo_wikipedia//005.png size: 1228x816
+        decode ms   encode ms   decode mpps   encode mpps   size kb    rate
+libpng:      21.5       194.0         46.54          5.17      2083   71.0%
+stbi:        25.2       178.2         39.76          5.62      2711   92.4%
+qoi:          5.3         9.4        190.45        106.90      2474   84.3%
+
+3928404 pixels matched for ../qoi_benchmark_suite/photo_wikipedia//018.png
+## ../qoi_benchmark_suite/photo_wikipedia//018.png size: 1402x934
+        decode ms   encode ms   decode mpps   encode mpps   size kb    rate
+libpng:      24.1       344.1         54.30          3.81      2125   55.4%
+stbi:        30.7       223.5         42.65          5.86      3059   79.7%
+qoi:          7.6        11.8        171.56        111.37      2411   62.8%
+
+3408660 pixels matched for ../qoi_benchmark_suite/photo_wikipedia//017.png
+## ../qoi_benchmark_suite/photo_wikipedia//017.png size: 1306x870
+        decode ms   encode ms   decode mpps   encode mpps   size kb    rate
+libpng:      23.3       374.9         48.86          3.03      1658   49.8%
+stbi:        26.7       211.8         42.52          5.36      2401   72.1%
+qoi:          7.4        11.3        153.37        100.11      2084   62.6%
+
+3942432 pixels matched for ../qoi_benchmark_suite/photo_wikipedia//006.png
+## ../qoi_benchmark_suite/photo_wikipedia//006.png size: 1404x936
+        decode ms   encode ms   decode mpps   encode mpps   size kb    rate
+libpng:      29.9       278.3         43.89          4.72      2227   57.9%
+stbi:        36.8       236.8         35.69          5.55      2876   74.7%
+qoi:          7.6        11.2        171.90        117.02      2415   62.7%
+
+3095820 pixels matched for ../qoi_benchmark_suite/photo_wikipedia//031.png
+## ../qoi_benchmark_suite/photo_wikipedia//031.png size: 1170x882
+        decode ms   encode ms   decode mpps   encode mpps   size kb    rate
+libpng:      19.5       240.3         52.81          4.29      1894   62.7%
+stbi:        20.7       189.0         49.76          5.46      2459   81.4%
+qoi:          6.4        10.0        160.66        103.28      2068   68.4%
+
+3359232 pixels matched for ../qoi_benchmark_suite/photo_wikipedia//029.png
+## ../qoi_benchmark_suite/photo_wikipedia//029.png size: 864x1296
+        decode ms   encode ms   decode mpps   encode mpps   size kb    rate
+libpng:      22.3       259.5         50.30          4.32      2039   62.2%
+stbi:        25.4       195.3         44.08          5.73      2812   85.7%
+qoi:          6.8        11.5        165.19         97.42      2770   84.4%
+
+3015936 pixels matched for ../qoi_benchmark_suite/photo_wikipedia//009.png
+## ../qoi_benchmark_suite/photo_wikipedia//009.png size: 1232x816
+        decode ms   encode ms   decode mpps   encode mpps   size kb    rate
+libpng:      19.3       249.2         52.09          4.03      1776   60.3%
+stbi:        18.4       172.4         54.64          5.83      2312   78.5%
+qoi:          5.8         8.4        173.20        120.21      1740   59.1%
+
+3046680 pixels matched for ../qoi_benchmark_suite/photo_wikipedia//002.png
+## ../qoi_benchmark_suite/photo_wikipedia//002.png size: 1260x806
+        decode ms   encode ms   decode mpps   encode mpps   size kb    rate
+libpng:      25.7       306.0         39.53          3.32      1680   56.5%
+stbi:        30.2       178.5         33.61          5.69      2416   81.2%
+qoi:          5.0         8.6        202.63        118.40      1930   64.9%
+
+2815200 pixels matched for ../qoi_benchmark_suite/photo_wikipedia//048.png
+## ../qoi_benchmark_suite/photo_wikipedia//048.png size: 816x1150
+        decode ms   encode ms   decode mpps   encode mpps   size kb    rate
+libpng:      18.8       222.9         49.80          4.21      1857   67.6%
+stbi:        17.8       166.5         52.77          5.64      2343   85.2%
+qoi:          5.0         8.0        189.20        116.76      1876   68.2%
+
+3021648 pixels matched for ../qoi_benchmark_suite/photo_wikipedia//041.png
+## ../qoi_benchmark_suite/photo_wikipedia//041.png size: 952x1058
+        decode ms   encode ms   decode mpps   encode mpps   size kb    rate
+libpng:      21.4       318.2         47.04          3.16      1285   43.6%
+stbi:        24.4       161.9         41.26          6.22      1881   63.8%
+qoi:          6.1         8.4        164.68        120.30      1488   50.4%
+
+3359232 pixels matched for ../qoi_benchmark_suite/photo_wikipedia//037.png
+## ../qoi_benchmark_suite/photo_wikipedia//037.png size: 1296x864
+        decode ms   encode ms   decode mpps   encode mpps   size kb    rate
+libpng:      19.7       392.5         56.70          2.85      1784   54.4%
+stbi:        21.8       203.1         51.37          5.51      2565   78.2%
+qoi:          6.7        11.0        168.02        102.00      2291   69.9%
+
+3015936 pixels matched for ../qoi_benchmark_suite/photo_wikipedia//028.png
+## ../qoi_benchmark_suite/photo_wikipedia//028.png size: 1232x816
+        decode ms   encode ms   decode mpps   encode mpps   size kb    rate
+libpng:      23.7       250.9         42.50          4.01      1639   55.7%
+stbi:        29.7       178.8         33.84          5.62      2311   78.5%
+qoi:          6.2         9.6        162.41        104.72      2455   83.4%
+
+3120000 pixels matched for ../qoi_benchmark_suite/photo_wikipedia//026.png
+## ../qoi_benchmark_suite/photo_wikipedia//026.png size: 1250x832
+        decode ms   encode ms   decode mpps   encode mpps   size kb    rate
+libpng:      25.7       237.1         40.39          4.39      2071   68.0%
+stbi:        30.5       190.2         34.11          5.47      2719   89.3%
+qoi:          5.8         9.5        178.94        109.90      2381   78.2%
+
+3359232 pixels matched for ../qoi_benchmark_suite/photo_wikipedia//045.png
+## ../qoi_benchmark_suite/photo_wikipedia//045.png size: 864x1296
+        decode ms   encode ms   decode mpps   encode mpps   size kb    rate
+libpng:      25.4       441.1         44.15          2.54      1335   40.7%
+stbi:        31.8       204.0         35.16          5.49      2055   62.6%
+qoi:          7.6        11.5        147.79         97.48      1707   52.1%
+
+2965248 pixels matched for ../qoi_benchmark_suite/photo_wikipedia//008.png
+## ../qoi_benchmark_suite/photo_wikipedia//008.png size: 1152x858
+        decode ms   encode ms   decode mpps   encode mpps   size kb    rate
+libpng:      18.7       332.0         52.77          2.98      1343   46.4%
+stbi:        21.6       167.4         45.71          5.90      1879   64.9%
+qoi:          7.4         9.4        134.33        105.24      1485   51.3%
+
+2868480 pixels matched for ../qoi_benchmark_suite/photo_wikipedia//033.png
+## ../qoi_benchmark_suite/photo_wikipedia//033.png size: 1440x664
+        decode ms   encode ms   decode mpps   encode mpps   size kb    rate
+libpng:      20.4       276.6         46.88          3.46      1542   55.1%
+stbi:        24.5       188.3         39.08          5.08      2279   81.4%
+qoi:          4.9         9.4        196.51        101.61      1714   61.2%
+
+3578016 pixels matched for ../qoi_benchmark_suite/photo_wikipedia//013.png
+## ../qoi_benchmark_suite/photo_wikipedia//013.png size: 1586x752
+        decode ms   encode ms   decode mpps   encode mpps   size kb    rate
+libpng:      24.0       233.2         49.78          5.11      2357   67.5%
+stbi:        30.6       212.2         39.03          5.62      2977   85.2%
+qoi:          8.0        11.1        148.22        107.78      2664   76.2%
+
+2795364 pixels matched for ../qoi_benchmark_suite/photo_wikipedia//036.png
+## ../qoi_benchmark_suite/photo_wikipedia//036.png size: 1086x858
+        decode ms   encode ms   decode mpps   encode mpps   size kb    rate
+libpng:      23.6       214.2         39.49          4.35      1776   65.1%
+stbi:        28.7       171.6         32.43          5.43      2470   90.5%
+qoi:          5.1         9.7        182.44         95.73      2168   79.4%
+
+3528720 pixels matched for ../qoi_benchmark_suite/photo_wikipedia//011.png
+## ../qoi_benchmark_suite/photo_wikipedia//011.png size: 1508x780
+        decode ms   encode ms   decode mpps   encode mpps   size kb    rate
+libpng:      26.8       405.6         43.94          2.90      1802   52.3%
+stbi:        32.4       201.4         36.33          5.84      2605   75.6%
+qoi:          7.7        12.1        153.31         97.52      2210   64.2%
+
+2787744 pixels matched for ../qoi_benchmark_suite/photo_wikipedia//016.png
+## ../qoi_benchmark_suite/photo_wikipedia//016.png size: 1136x818
+        decode ms   encode ms   decode mpps   encode mpps   size kb    rate
+libpng:      20.9       282.4         44.38          3.29      1034   38.0%
+stbi:        26.3       158.4         35.35          5.87      1535   56.4%
+qoi:          6.2         8.2        149.09        113.90      1314   48.3%
+
+2770560 pixels matched for ../qoi_benchmark_suite/photo_wikipedia//046.png
+## ../qoi_benchmark_suite/photo_wikipedia//046.png size: 1110x832
+        decode ms   encode ms   decode mpps   encode mpps   size kb    rate
+libpng:      19.3       204.2         47.81          4.52      1650   61.0%
+stbi:        22.7       162.0         40.63          5.70      2415   89.3%
+qoi:          4.9         8.6        186.76        107.00      2010   74.3%
+
+3359232 pixels matched for ../qoi_benchmark_suite/photo_wikipedia//040.png
+## ../qoi_benchmark_suite/photo_wikipedia//040.png size: 1296x864
+        decode ms   encode ms   decode mpps   encode mpps   size kb    rate
+libpng:      22.3       398.3         50.30          2.81      1618   49.3%
+stbi:        26.3       200.1         42.56          5.60      2431   74.1%
+qoi:          6.5        10.9        173.56        103.20      1988   60.6%
+
+3338208 pixels matched for ../qoi_benchmark_suite/photo_wikipedia//024.png
+## ../qoi_benchmark_suite/photo_wikipedia//024.png size: 1038x1072
+        decode ms   encode ms   decode mpps   encode mpps   size kb    rate
+libpng:      24.9       282.9         44.64          3.93      1940   59.5%
+stbi:        28.1       197.0         39.57          5.65      2513   77.1%
+qoi:          6.8        10.0        163.61        111.75      1985   60.9%
+
+## Total for ../qoi_benchmark_suite/photo_wikipedia/
+        decode ms   encode ms   decode mpps   encode mpps   size kb    rate
+libpng:      22.6       286.1         47.21          3.73      1803   57.7%
+stbi:        26.5       190.1         40.27          5.62      2504   80.1%
+qoi:          6.3        10.1        168.42        105.97      2130   68.1%
+
+# Grand total for ../qoi_benchmark_suite/photo_wikipedia/
+        decode ms   encode ms   decode mpps   encode mpps   size kb    rate
+libpng:      22.6       286.1         47.21          3.73      1803   57.7%
+stbi:        26.5       190.1         40.27          5.62      2504   80.1%
+qoi:          6.3        10.1        168.42        105.97      2130   68.1%
+
