@@ -139,20 +139,6 @@ A valid encoder must not issue 2 or more consecutive QOI_OP_INDEX chunks to the
 same index. QOI_OP_RUN should be used instead.
 
 
-1 BYTE GREYSCALE - this will be a single byte greyscale difference - 1/1 size of original
-~- QOI_OP1_1DIFF ----------.    
-|         Byte[0]         |
-|  7  6  5  4  3  2  1  0 |
-|-------+-----------------|
-|  0  0 |	  diff        |
-`-------------------------`
-2-bit tag b00
-6-bit pixel difference: -32..31 offset to 0..63
-
-Values are stored as unsigned integers with a bias of 32. E.g. -32 is stored as
-0 (b00).
-
-
 3/4 BYTE COLOUR - 1/3 size of original
 .- QOI_OP_DIFF -----------.		
 |         Byte[0]         |
@@ -174,18 +160,18 @@ so "1 - 2" will result in 255, while "255 + 1" will result in 0.
 The alpha value remains unchanged from the previous pixel.
 
 
-1 BYTE GREYSCALE - this will be a double byte greyscale difference - 1/2 size of original
-~.- QOI_OP1_2DIFF -----------.		
-|         Byte[0]         |
-|  7  6  5  4  3  2  1  0 |
-|-------+--------+--------|
-|  0  1 |   d0   |   d1   |
-`-------------------------`
-2-bit tag b01
-3-bit pixel difference from the previous pixel between -4..3
-3-bit pixel difference from the previous pixel between -4..3
+1 BYTE GREYSCALE - this will be a double half-byte greyscale difference 
+.- QOI_OP2_2DIFF ---------.--------------------------
+|         Byte[0]         |         Byte[1]         |
+|  7  6  5  4  3  2  1  0 |  7  6  5  4  3  2  1  0 |
+|-------+-----------------|------------+------------|
+|  1  0 |     raw bytes   |    diff0   |   diff1    | ......
+`-------------------------`-------------------------`
+2-bit tag b11
+6-bit raw bytes for the next N pixels: 1..64
+two 4-bit greyscale differences from the previous pixel, they are found in pairs and 2 fill bytes. There is always 2.
 
-Values are stored as unsigned integers with a bias of 4. E.g. -4 is stored as
+Values are stored as unsigned integers with a bias of 8. E.g. -8 is stored as
 0 (b00). 
 
 The difference to the current channel values are using a wraparound operation,
@@ -218,24 +204,6 @@ and a bias of 8 for the red and blue channel.
 
 The alpha value remains unchanged from the previous pixel.
 
-1 BYTE GREYSCALE - this will be 3 bytes in 2 if in range - 2/3 size of original
-~.- QOI_OP1_RAMP ------------------------------------.
-|         Byte[0]         |         Byte[1]          |
-|  7  6  5  4  3  2  1  0 |  7  6  5  4  3  2  1  0  |
-|-------+-----------------+-------------+------------|
-|  1  0 |  pixel1 diff    | pixel2 diff | pixel3 diff|
-`----------------------------------------------------`
-2-bit tag b10
-6-bit 1st pixel difference from the previous pixel -32..31
-4-bit 2nd pixel difference from the previous pixel -8..7  
-4-bit 3rd pixel difference from the previous pixel -8..7  
-
-The difference to the current channel values are using a wraparound operation,
-so "10 - 13" will result in 253, while "250 + 7" will result in 1.
-
-Values are stored as unsigned integers with a bias of 32 for the first pixel
-and a bias of 8 for the 2nd and 3rd.
-
 
 3/4 BYTE COLOUR - up to 1/(64*3) size of original
 .- QOI_OP_RUN ------------.
@@ -253,29 +221,32 @@ QOI_OP_RGBA tags.
 
 The run-length is stored with a bias of -1.
 
-1 BYTE GREYSCALE - same run-length encoding only shorter - up to 1/32 size of original
-.- QOI_OP1_RUN ------------.
+1 BYTE GREYSCALE - same run-length encoding only shorter - up to 1/64 size of original
+.- QOI_OP2_RUN ------------.
 |         Byte[0]         |
 |  7  6  5  4  3  2  1  0 |
-|---------+---------------|
-|  1  1  0|     run       |
+|-------+-----------------|
+|  1  1 |       run       |
 `-------------------------`
-3-bit tag b110
-5-bit run-length repeating the previous pixel: 1..32
+2-bit tag b11
+6-bit run-length repeating the previous pixel: 1..64
 
 The run-length is stored with a bias of -1.
 
-1 BYTE GREYSCALE - raw-length encoding - store raw bytes - up to 33/32 size of original
-.- QOI_OP1_RAW ------------.-------
+1 BYTE GREYSCALE - raw-length encoding - store raw bytes - up to 65/64 size of original
+.- QOI_OP2_RAW ------------.-------
 |         Byte[0]         |
 |  7  6  5  4  3  2  1  0 |
-|---------+---------------|-------
-|  1  1  1|   raw bytes   |  pixel value 1,2,3,etc
+|-------+-----------------|-------
+|  1  0 |     raw bytes   |  pixel value 1,2,3,etc
 `-------------------------`-------
-3-bit tag b111
-5-bit raw bytes for the next N pixels: 1..32
+2-bit tag b10
+6-bit raw bytes for the next N pixels: 1..64
+8-bit raw data bytes of pixel values
 
 The raw-length is stored with a bias of -1. 
+
+
 
 3/4 BYTE COLOUR - 4/3 size of original
 .- QOI_OP_RGB ------------------------------------------.
