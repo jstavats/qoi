@@ -165,10 +165,10 @@ The alpha value remains unchanged from the previous pixel.
 |         Byte[0]         |         Byte[1]         |
 |  7  6  5  4  3  2  1  0 |  7  6  5  4  3  2  1  0 |
 |-------+-----------------|------------+------------|
-|  1  0 |     raw bytes   |    diff0   |   diff1    | ......
+|  1  0 | diff byte count |    diff0   |   diff1    | ......
 `-------------------------`-------------------------`
 2-bit tag b11
-6-bit raw bytes for the next N pixels: 1..64
+6-bit difference byte count for the next N bytes (so 2 x N pixels): 1..64
 two 4-bit greyscale differences from the previous pixel, they are found in pairs and 2 fill bytes. There is always 2.
 
 Values are stored as unsigned integers with a bias of 8. E.g. -8 is stored as
