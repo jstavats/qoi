@@ -378,7 +378,7 @@ void benchmark_print_result(benchmark_result_t res) {
 		);
 	}
 	printf(
-		"qoi:     %8.1f    %8.1f      %8.2f      %8.2f  %8ld   %4.1f%%\n", 
+		"qoi-grey:%8.1f    %8.1f      %8.2f      %8.2f  %8ld   %4.1f%%\n", 
 		(double)res.qoi.decode_time/1000000.0,
 		(double)res.qoi.encode_time/1000000.0,
 		(res.qoi.decode_time > 0 ? px / ((double)res.qoi.decode_time/1000.0) : 0),
