@@ -442,6 +442,10 @@ benchmark_result_t benchmark_image(const char *path) {
 		if (memcmp(pixels, pixels_qoi, w * h * channels) != 0) {
 			ERROR("QOI roundtrip pixel mismatch for %s", path);
 		}
+		else
+		{
+			printf("%d pixels matched for %s\n",w * h * channels,path);
+		}
 		free(pixels_qoi);
 	}
 

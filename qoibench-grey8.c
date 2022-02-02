@@ -152,7 +152,8 @@ void *libpng_encode(void *pixels, int w, int h, int channels, int *out_len) {
 		info,
 		w, h,
 		8,
-		channels == 3 ? PNG_COLOR_TYPE_RGB : PNG_COLOR_TYPE_RGBA,
+		PNG_COLOR_TYPE_GRAY,
+		//channels == 3 ? PNG_COLOR_TYPE_RGB : PNG_COLOR_TYPE_RGBA,
 		PNG_INTERLACE_NONE,
 		PNG_COMPRESSION_TYPE_DEFAULT,
 		PNG_FILTER_TYPE_DEFAULT
@@ -443,7 +444,20 @@ benchmark_result_t benchmark_image(const char *path) {
 		qoi_desc dc;
 		void *pixels_qoi = qoi_decode(encoded_qoi, encoded_qoi_size, &dc, channels);
 		if (memcmp(pixels, pixels_qoi, w * h * channels) != 0) {
-			ERROR("QOI roundtrip pixel mismatch for %s", path);
+			//ERROR("QOI roundtrip pixel mismatch for %s", path);
+			printf("QOI roundtrip pixel mismatch for %s", path);
+			
+			for (int i=0;i<w * h * channels;i++)
+			{ 
+				unsigned char *pix=pixels;
+				unsigned char *pixq=pixels_qoi;
+				
+				if(pix[i]!=pixq[i])
+				{
+					printf("at byte %d of %d\n",i, w*h*channels);
+					break;
+				}
+			}
 		}
 		else
 		{
