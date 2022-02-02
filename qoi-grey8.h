@@ -503,7 +503,7 @@ void *qoi_encode(const void *data, const qoi_desc *desc, int *out_len) {
 
 	px_len = desc->width * desc->height * desc->channels;
 	px_end = px_len - desc->channels;
-	px_stop = px_end - 1; //this is the last pixel we can look at in the main loop
+	px_stop = px_end - 2; //this is the last pixel we can look at in the main loop
 	channels = desc->channels;
 
 	//always do the first byte in raw
