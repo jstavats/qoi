@@ -87,7 +87,7 @@ struct qoi_header_t {
 	char     magic[4];   // magic bytes "qoif"
 	uint32_t width;      // image width in pixels (BE)
 	uint32_t height;     // image height in pixels (BE)
-	uint8_t  channels;   // 3 = RGB, 4 = RGBA
+	uint8_t  channels;   // 3 = RGB, 4 = RGBA, 1=GREY
 	uint8_t  colorspace; // 0 = sRGB with linear alpha, 1 = all channels linear
 };
 
@@ -95,7 +95,9 @@ Images are encoded row by row, left to right, top to bottom. The decoder and
 encoder start with {r: 0, g: 0, b: 0, a: 255} as the previous pixel value. An
 image is complete when all pixels specified by width * height have been covered.
 
-Pixels are encoded as
+COLOUR FORMATS 3 or 4 bytes per pixel format
+
+Colour pixels are encoded as
  - a run of the previous pixel
  - an index into an array of previously seen pixels
  - a difference to the previous pixel value in r,g,b
@@ -125,7 +127,6 @@ The byte stream's end is marked with 7 0x00 bytes followed a single 0x01 byte.
 
 The possible chunks are:
 
-3/4 BYTE COLOUR - 1/3 size of original
 .- QOI_OP_INDEX ----------.    
 |         Byte[0]         |
 |  7  6  5  4  3  2  1  0 |
@@ -139,7 +140,6 @@ A valid encoder must not issue 2 or more consecutive QOI_OP_INDEX chunks to the
 same index. QOI_OP_RUN should be used instead.
 
 
-3/4 BYTE COLOUR - 1/3 size of original
 .- QOI_OP_DIFF -----------.		
 |         Byte[0]         |
 |  7  6  5  4  3  2  1  0 |
@@ -159,26 +159,6 @@ so "1 - 2" will result in 255, while "255 + 1" will result in 0.
 
 The alpha value remains unchanged from the previous pixel.
 
-
-1 BYTE GREYSCALE - this will be a double half-byte greyscale difference 
-.- QOI_OP2_2DIFF ---------.--------------------------
-|         Byte[0]         |         Byte[1]         |
-|  7  6  5  4  3  2  1  0 |  7  6  5  4  3  2  1  0 |
-|-------+-----------------|------------+------------|
-|  1  0 | diff byte count |    diff0   |   diff1    | ......
-`-------------------------`-------------------------`
-2-bit tag b11
-6-bit difference byte count for the next N bytes (so 2 x N pixels): 1..64
-two 4-bit greyscale differences from the previous pixel, they are found in pairs and 2 fill bytes. There is always 2.
-
-Values are stored as unsigned integers with a bias of 8. E.g. -8 is stored as
-0 (b00). 
-
-The difference to the current channel values are using a wraparound operation,
-so "1 - 2" will result in 255, while "255 + 1" will result in 0.
-
-
-3/4 BYTE COLOUR - 2/3 size of original
 .- QOI_OP_LUMA -------------------------------------.
 |         Byte[0]         |         Byte[1]         |
 |  7  6  5  4  3  2  1  0 |  7  6  5  4  3  2  1  0 |
@@ -204,8 +184,6 @@ and a bias of 8 for the red and blue channel.
 
 The alpha value remains unchanged from the previous pixel.
 
-
-3/4 BYTE COLOUR - up to 1/(64*3) size of original
 .- QOI_OP_RUN ------------.
 |         Byte[0]         |
 |  7  6  5  4  3  2  1  0 |
@@ -221,34 +199,6 @@ QOI_OP_RGBA tags.
 
 The run-length is stored with a bias of -1.
 
-1 BYTE GREYSCALE - same run-length encoding only shorter - up to 1/64 size of original
-.- QOI_OP2_RUN ------------.
-|         Byte[0]         |
-|  7  6  5  4  3  2  1  0 |
-|-------+-----------------|
-|  1  1 |       run       |
-`-------------------------`
-2-bit tag b11
-6-bit run-length repeating the previous pixel: 1..64
-
-The run-length is stored with a bias of -1.
-
-1 BYTE GREYSCALE - raw-length encoding - store raw bytes - up to 65/64 size of original
-.- QOI_OP2_RAW ------------.-------
-|         Byte[0]         |
-|  7  6  5  4  3  2  1  0 |
-|-------+-----------------|-------
-|  1  0 |     raw bytes   |  pixel value 1,2,3,etc
-`-------------------------`-------
-2-bit tag b10
-6-bit raw bytes for the next N pixels: 1..64
-8-bit raw data bytes of pixel values
-
-The raw-length is stored with a bias of -1. 
-
-
-
-3/4 BYTE COLOUR - 4/3 size of original
 .- QOI_OP_RGB ------------------------------------------.
 |         Byte[0]         | Byte[1] | Byte[2] | Byte[3] |
 |  7  6  5  4  3  2  1  0 | 7 .. 0  | 7 .. 0  | 7 .. 0  |
@@ -262,7 +212,6 @@ The raw-length is stored with a bias of -1.
 
 The alpha value remains unchanged from the previous pixel.
 
-3/4 BYTE COLOUR - up to 5/4 size of original
 .- QOI_OP_RGBA ---------------------------------------------------.
 |         Byte[0]         | Byte[1] | Byte[2] | Byte[3] | Byte[4] |
 |  7  6  5  4  3  2  1  0 | 7 .. 0  | 7 .. 0  | 7 .. 0  | 7 .. 0  |
@@ -274,6 +223,63 @@ The alpha value remains unchanged from the previous pixel.
 8-bit green channel value
 8-bit  blue channel value
 8-bit alpha channel value
+
+
+GREYSCALE FORMATS 1 byte per pixel format
+
+Grey pixels are encoded as
+ - a run of the previous pixel value
+ - differences to the previous pixel value (two 4-bit differences per byte)
+ - full intensity values
+
+Each chunk starts with a 2-bit tag, followed by a number of bits. The
+bit length of chunks is divisible by 8 - i.e. all chunks are byte aligned. All
+values encoded in these data bits have the most significant bit on the left.
+
+The byte stream's end is marked with 7 0x00 bytes followed a single 0x01 byte.
+
+
+The possible chunks are:
+
+.- QOI_OP1_2DIFF ---------.--------------------------
+|         Byte[0]         |         Byte[1]         |
+|  7  6  5  4  3  2  1  0 |  7  6  5  4  3  2  1  0 |
+|-------+-----------------|------------+------------|
+|  0  1 | diff byte count |    diff0   |   diff1    | ......
+`-------------------------`-------------------------`
+2-bit tag b01
+6-bit difference byte count for the next N bytes (so 2 x N pixels): 1..64
+two 4-bit greyscale differences from the previous pixel, they are found in pairs and 2 fill bytes. There is always 2.
+
+Values are stored as unsigned integers with a bias of 8. E.g. -8 is stored as
+0 (b00). 
+
+The difference to the current channel values are using a wraparound operation,
+so "1 - 2" will result in 255, while "255 + 1" will result in 0.
+
+
+.- QOI_OP1_RAW ------------.-------
+|         Byte[0]         |
+|  7  6  5  4  3  2  1  0 |
+|-------+-----------------|-------
+|  1  0 |     raw bytes   |  pixel value 1,2,3,etc
+`-------------------------`-------
+2-bit tag b10
+6-bit raw byte data for the next N pixels: 1..64
+8-bit raw data bytes of pixel intensity values
+
+
+The raw byte length is stored with a bias of -1. 
+.- QOI_OP1_RUN ------------.
+|         Byte[0]         |
+|  7  6  5  4  3  2  1  0 |
+|-------+-----------------|
+|  1  1 |       run       |
+`-------------------------`
+2-bit tag b11
+6-bit run-length repeating the previous pixel value: 1..64 pixels
+
+The run-length is stored with a bias of -1.
 
 */
 
@@ -433,11 +439,12 @@ static unsigned int qoi_read_32(const unsigned char *bytes, int *p) {
 //define ENABLE_COUNTS
 
 //define QOI_OP2_2DELTA 0x00 /* 00xxxxxx 4bpp delta */
-#define QOI_OP2_2DIFF  0x40 /* 01xxxxxx 4bpp difference*/
-#define QOI_OP2_RAW    0x80 /* 10xxxxxx raw bytes */
-#define QOI_OP2_RUN    0xc0 /* 11xxxxxx run length*/
+#define QOI_OP1_2DIFF  0x40 /* 01xxxxxx 4bpp difference*/
+#define QOI_OP1_RAW    0x80 /* 10xxxxxx raw bytes */
+#define QOI_OP1_RUN    0xc0 /* 11xxxxxx run length*/
 
-void *qoi_encode(const void *data, const qoi_desc *desc, int *out_len) {
+
+void *qoi_grey_encode(const void *data, const qoi_desc *desc, int *out_len) {
 	
 	int i, max_size, p;
 
@@ -508,13 +515,13 @@ void *qoi_encode(const void *data, const qoi_desc *desc, int *out_len) {
 
 	//always do the first byte in raw
 	run_start = &(bytes[p]);
-	bytes[p++] = QOI_OP2_RAW; //we don't know how many bytes yet, but output the 2 type bits
+	bytes[p++] = QOI_OP1_RAW; //we don't know how many bytes yet, but output the 2 type bits
 	bytes[p++] = *(pixels);
 	run = 1;
 #ifdef ENABLE_COUNTS
 	count_raw++;
 #endif	
-	mode = QOI_OP2_RAW;
+	mode = QOI_OP1_RAW;
 	px_prev = *(pixels);
 	thispixel = pixels + 1;
 
@@ -528,7 +535,7 @@ void *qoi_encode(const void *data, const qoi_desc *desc, int *out_len) {
 #ifdef ENABLE_RUN
 		if (px == px_prev)
 		{  //same value - run length
-			mode_next = QOI_OP2_RUN;
+			mode_next = QOI_OP1_RUN;
 #ifdef ENABLE_COUNTS
 			count_run++;
 #endif
@@ -545,7 +552,7 @@ void *qoi_encode(const void *data, const qoi_desc *desc, int *out_len) {
 				dv1 > -9 && dv1 < 8
 				)
 			{
-				mode_next = QOI_OP2_2DIFF;
+				mode_next = QOI_OP1_2DIFF;
 #ifdef ENABLE_COUNTS
 				count_2diff += 2;
 #endif
@@ -553,7 +560,7 @@ void *qoi_encode(const void *data, const qoi_desc *desc, int *out_len) {
 			else
 #endif //ENABLE_2DIFF
 			{ //default is RAW bytes
-				mode_next = QOI_OP2_RAW;
+				mode_next = QOI_OP1_RAW;
 #ifdef ENABLE_COUNTS
 				count_raw++;
 #endif	
@@ -574,7 +581,7 @@ void *qoi_encode(const void *data, const qoi_desc *desc, int *out_len) {
 		run++;// we've always created one byte of output data 
 
 #ifdef ENABLE_2DIFF
-		if (mode == QOI_OP2_2DIFF)
+		if (mode == QOI_OP1_2DIFF)
 		{
 			bytes[p++] = (dv0 + 8) << 4 | (dv1 + 8);
 			px_pos++;
@@ -583,7 +590,7 @@ void *qoi_encode(const void *data, const qoi_desc *desc, int *out_len) {
 		}
 		else
 #endif
-		if (mode == QOI_OP2_RAW)
+		if (mode == QOI_OP1_RAW)
 		{
 			bytes[p++] = px;
 			px_prev = px;
@@ -597,7 +604,7 @@ void *qoi_encode(const void *data, const qoi_desc *desc, int *out_len) {
 	if (px_pos != px_end) //if we have any left over pixels, store them RAW
 	{
 		run_start = &(bytes[p]);
-		bytes[p++] = QOI_OP2_RAW; //we don't know how many bytes yet, but output the 2 type bits
+		bytes[p++] = QOI_OP1_RAW; //we don't know how many bytes yet, but output the 2 type bits
 
 		while (px_pos <= px_end)
 		{
@@ -632,7 +639,7 @@ void *qoi_encode(const void *data, const qoi_desc *desc, int *out_len) {
 	return bytes;
 }
 
-void *qoi_decode(const void *data, int size, qoi_desc *desc, int channels) {
+void *qoi_grey_decode(const void *data, int size, qoi_desc *desc, int channels) {
 	const unsigned char *bytes;
 	unsigned int header_magic;
 	unsigned char *pixels;
@@ -686,7 +693,7 @@ void *qoi_decode(const void *data, int size, qoi_desc *desc, int channels) {
 	{
 		int b1 = bytes[p++];
 
-		if ((b1 & QOI_MASK_2) == QOI_OP2_2DIFF) {
+		if ((b1 & QOI_MASK_2) == QOI_OP1_2DIFF) {
 			run = (b1 & 0x3f);
 			while (run >= 0)
 			{
@@ -713,7 +720,7 @@ void *qoi_decode(const void *data, int size, qoi_desc *desc, int channels) {
 			px_pos--;
 
 		}
-		else if ((b1 & QOI_MASK_2) == QOI_OP2_RUN) {
+		else if ((b1 & QOI_MASK_2) == QOI_OP1_RUN) {
 			run = (b1 & 0x3f);
 			while (run >= 0)
 			{
@@ -726,7 +733,7 @@ void *qoi_decode(const void *data, int size, qoi_desc *desc, int channels) {
 			}
 			px_pos--;
 		}
-		else if ((b1 & QOI_MASK_2) == QOI_OP2_RAW) {
+		else if ((b1 & QOI_MASK_2) == QOI_OP1_RAW) {
 			raw = (b1 & 0x3f);
 			while (raw >= 0)
 			{
@@ -982,6 +989,33 @@ void* qoi_colour_decode(const void* data, int size, qoi_desc* desc, int channels
 
 	return pixels;
 }
+
+
+void *qoi_encode(const void *data, const qoi_desc *desc, int *out_len) {
+
+	if(desc->channels == 3 || desc->channels == 4)
+	{
+		return	qoi_colour_encode(data, desc, out_len);
+	}
+	else if (desc->channels == 1)
+	{
+		return	qoi_grey_encode(data, desc, out_len);
+	}
+}
+
+void *qoi_decode(const void *data, int size, qoi_desc *desc, int channels)
+ {
+
+	if(channels == 3 || channels == 4)
+	{
+		return	qoi_colour_decode(data, size, desc, channels);
+	}
+	else if (channels == 1)
+	{
+		return	qoi_grey_decode(data, size, desc, channels);
+	}
+}
+
 
 #ifndef QOI_NO_STDIO
 #include <stdio.h>
