@@ -4,6 +4,7 @@ QOI - The "Quite OK Image" format for fast, lossless image compression
 
 Dominic Szablewski - https://phoboslab.org
 
+Greyscale Additions - Jay Stavnitzky
 
 -- LICENSE: The MIT License(MIT)
 
@@ -95,7 +96,7 @@ Images are encoded row by row, left to right, top to bottom. The decoder and
 encoder start with {r: 0, g: 0, b: 0, a: 255} as the previous pixel value. An
 image is complete when all pixels specified by width * height have been covered.
 
-COLOUR FORMATS 3 or 4 bytes per pixel format
+COLOUR PIXEL FORMATS 3 or 4 bytes per pixel format
 
 Colour pixels are encoded as
  - a run of the previous pixel
@@ -225,7 +226,7 @@ The alpha value remains unchanged from the previous pixel.
 8-bit alpha channel value
 
 
-GREYSCALE FORMATS 1 byte per pixel format
+GREYSCALE PIXEL FORMAT 1 byte per pixel format
 
 Grey pixels are encoded as
  - a run of the previous pixel value
@@ -436,13 +437,11 @@ static unsigned int qoi_read_32(const unsigned char *bytes, int *p) {
 //turn features on and off for testing, raw is always necessary
 #define ENABLE_RUN 
 #define ENABLE_2DIFF 
-//define ENABLE_COUNTS
+//define ENABLE_COUNTS  //turn on keeping/printing of statistics
 
-//define QOI_OP2_2DELTA 0x00 /* 00xxxxxx 4bpp delta */
 #define QOI_OP1_2DIFF  0x40 /* 01xxxxxx 4bit difference*/
 #define QOI_OP1_RAW    0x80 /* 10xxxxxx raw bytes */
 #define QOI_OP1_RUN    0xc0 /* 11xxxxxx run length*/
-
 
 void *qoi_grey_encode(const void *data, const qoi_desc *desc, int *out_len) {
 	
@@ -499,8 +498,6 @@ void *qoi_grey_encode(const void *data, const qoi_desc *desc, int *out_len) {
 
 
 	pixels = (const unsigned char *)data;
-
-	//QOI_ZEROARR(index);
 
 	run = 0;
 	mode = 0;
@@ -626,13 +623,13 @@ void *qoi_grey_encode(const void *data, const qoi_desc *desc, int *out_len) {
 	}
 
 #ifdef ENABLE_COUNTS
-	unsigned long count_total = count_run+ count_raw+ count_1diff+ count_2diff+ count_ramp;
+	unsigned long count_total = count_run+ count_raw+ count_2diff;
 	double dcount_total = count_total;
 
-	printf("encode counts: run %ld, raw %ld, 1diff %ld, 2diff %ld, ramp %ld, total %ld, inlen %ld, outlen %ld\n",
-		count_run, count_raw, count_1diff, count_2diff, count_ramp, count_total, px_len,p);
-	printf("encode percent: run %.2f, raw %.2f, 1diff %.2f, 2diff %.2f, ramp %.2f, out %.3f\n",
-		count_run/dcount_total, count_raw / dcount_total, count_1diff / dcount_total, count_2diff / dcount_total, count_ramp / dcount_total,p/(double)(px_len));
+	printf("encode counts: run %ld, raw %ld, 2diff %ld, total %ld, inlen %ld, outlen %ld\n",
+		count_run, count_raw, count_2diff, count_total, px_len,p);
+	printf("encode percent: run %.2f, raw %.2f, 2diff %.2f, out %.3f\n",
+		count_run/dcount_total, count_raw / dcount_total, count_2diff / dcount_total, p/(double)(px_len));
 	
 #endif
 
