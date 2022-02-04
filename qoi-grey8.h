@@ -439,7 +439,7 @@ static unsigned int qoi_read_32(const unsigned char *bytes, int *p) {
 //define ENABLE_COUNTS
 
 //define QOI_OP2_2DELTA 0x00 /* 00xxxxxx 4bpp delta */
-#define QOI_OP1_2DIFF  0x40 /* 01xxxxxx 4bpp difference*/
+#define QOI_OP1_2DIFF  0x40 /* 01xxxxxx 4bit difference*/
 #define QOI_OP1_RAW    0x80 /* 10xxxxxx raw bytes */
 #define QOI_OP1_RUN    0xc0 /* 11xxxxxx run length*/
 
@@ -509,8 +509,8 @@ void *qoi_grey_encode(const void *data, const qoi_desc *desc, int *out_len) {
 	px1 = px;
 
 	px_len = desc->width * desc->height * desc->channels;
-	px_end = px_len - desc->channels;
-	px_stop = px_end - 2; //this is the last pixel we can look at in the main loop
+	px_end = px_len - desc->channels; //move back the to the beginning of the last pixel
+	px_stop = px_end - 2*(desc->channels); //this is the last pixel we can look at in the main loop
 	channels = desc->channels;
 
 	//always do the first byte in raw
@@ -600,6 +600,7 @@ void *qoi_grey_encode(const void *data, const qoi_desc *desc, int *out_len) {
 	
 	//close out the last one
 	*run_start = (*run_start) | (run - 1);
+	run=0;
 
 	if (px_pos != px_end) //if we have any left over pixels, store them RAW
 	{
@@ -1006,14 +1007,18 @@ void *qoi_encode(const void *data, const qoi_desc *desc, int *out_len) {
 void *qoi_decode(const void *data, int size, qoi_desc *desc, int channels)
  {
 
-	if(channels == 3 || channels == 4)
+	void *retptr=NULL;
+	
+	//try it as colour
+	retptr=qoi_colour_decode(data, size, desc, channels);
+	
+	//if not try it as grey
+	if(retptr==NULL)
 	{
-		return	qoi_colour_decode(data, size, desc, channels);
+		retptr=qoi_grey_decode(data, size, desc, channels);
 	}
-	else if (channels == 1)
-	{
-		return	qoi_grey_decode(data, size, desc, channels);
-	}
+	
+	return retptr;
 }
 
 

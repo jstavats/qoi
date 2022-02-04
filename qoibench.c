@@ -452,20 +452,19 @@ benchmark_result_t benchmark_image(const char *path) {
 		void *pixels_qoi = qoi_decode(encoded_qoi, encoded_qoi_size, &dc, channels);
 		if (memcmp(pixels, pixels_qoi, w * h * channels) != 0) {
 			int totbytes=w * h * channels;
+			unsigned char *pix=pixels;
+			unsigned char *pixq=pixels_qoi;
+			
 			for (int i=0;i<totbytes;i++)
- 			{ 
- 				unsigned char *pix=pixels;
- 				unsigned char *pixq=pixels_qoi;
- 				
+ 			{ 	
  				if(pix[i]!=pixq[i])
  				{
+ 					printf("pix:  %x %x %x %x\n",pix[i-3],pix[i-2],pix[i-1],pix[i]);
+ 					printf("pixq: %x %x %x %x\n",pixq[i-3],pixq[i-2],pixq[i-1],pixq[i]);
+ 				
  					ERROR("QOI roundtrip pixel mismatch for %s at byte %d of %d", path,i,totbytes);
  				}
  			}
-		}
-		else
-		{
-			printf("%d pixels matched for %s\n",w * h * channels,path);
 		}
 		free(pixels_qoi);
 	}
@@ -590,7 +589,7 @@ void benchmark_directory(const char *path, benchmark_result_t *grand_total) {
 		benchmark_result_t res = benchmark_image(file_path);
 
 		if (!opt_onlytotals) {
-			printf("## %s size: %dx%d\n", file_path, res.w, res.h);
+			printf("## %s size_pix: %dx%d raw_size_kb:%ld\n", file_path, res.w, res.h, res.raw_size/1024);
 			benchmark_print_result(res);
 		}
 

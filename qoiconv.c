@@ -68,6 +68,8 @@ int main(int argc, char **argv) {
 			channels = 4;
 		}
 		
+		channels=1;
+		
 		pixels = (void *)stbi_load(argv[1], &w, &h, NULL, channels);
 	}
 	else if (STR_ENDS_WITH(argv[1], ".qoi")) {
