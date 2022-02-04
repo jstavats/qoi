@@ -459,9 +459,6 @@ benchmark_result_t benchmark_image(const char *path) {
  			{ 	
  				if(pix[i]!=pixq[i])
  				{
- 					printf("pix:  %x %x %x %x\n",pix[i-3],pix[i-2],pix[i-1],pix[i]);
- 					printf("pixq: %x %x %x %x\n",pixq[i-3],pixq[i-2],pixq[i-1],pixq[i]);
- 				
  					ERROR("QOI roundtrip pixel mismatch for %s at byte %d of %d", path,i,totbytes);
  				}
  			}

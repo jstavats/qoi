@@ -67,8 +67,7 @@ int main(int argc, char **argv) {
 		if(channels != 3||channels !=1) {
 			channels = 4;
 		}
-		
-		channels=1;
+
 		
 		pixels = (void *)stbi_load(argv[1], &w, &h, NULL, channels);
 	}
