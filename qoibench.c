@@ -44,7 +44,7 @@ SOFTWARE.
 #include "stb_image_write.h"
 
 #define QOI_IMPLEMENTATION
-#include "qoi-grey8.h"
+#include "qoi.h"
 
 
 

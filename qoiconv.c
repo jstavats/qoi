@@ -41,7 +41,7 @@ SOFTWARE.
 #include "stb_image_write.h"
 
 #define QOI_IMPLEMENTATION
-#include "qoi-grey8.h"
+#include "qoi.h"
 
 
 #define STR_ENDS_WITH(S, E) (strcmp(S + strlen(S) - (sizeof(E)-1), E) == 0)
