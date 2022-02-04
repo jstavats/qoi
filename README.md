@@ -1,3 +1,10 @@
+
+## This Repository
+
+The purpose of this repository is to test creating a greyscale pixel (1 byte per pixel) capable version of 
+the QOI file format.  QOI currently supports colour pixels (3 and 4 bytes per pixels).
+
+
 ![QOI Logo](https://qoiformat.org/qoi-logo.svg)
 
 # QOI - The “Quite OK Image Format” for fast, lossless image compression
